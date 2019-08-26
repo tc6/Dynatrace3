@@ -8,8 +8,8 @@ ADD https://nexusmil.wdf.sap.corp:8443/nexus/service/local/repositories/deploy.e
 
 RUN unzip dynatrace.zip \
   && unzip agents.zip \
-  && mv ${DT_AG_VERSION}/sg/unix/Dynatrace-ActiveGate-Linux-x86-*.sh ActiveGate-Installer.sh \
-  && rm -rf dynatrace.zip agents.zip ${DT_AG_VERSION} \
+  && mv $1.169.142.20190522-152808/sg/unix/Dynatrace-ActiveGate-Linux-x86-*.sh ActiveGate-Installer.sh \
+  && rm -rf dynatrace.zip agents.zip $1.169.142.20190522-152808 \
   && chmod +x ActiveGate-Installer.sh \
   && ./ActiveGate-Installer.sh
 
