@@ -4,8 +4,7 @@ ARG DT_AG_VERSION
 
 RUN apt-get update && apt-get install -y unzip
 
-ADD https://nexusmil.wdf.sap.corp:8443/nexus/service/local/repositories/deploy.external/content/com/dynatrace/managed/dynatrace-managed-sg-zip/1.169.142.20190522-152808/dynatrace-managed-sg-zip-1.169.142.20190522-152808.zip dynatrace.zip
-
+ADD https://nexusmil.wdf.sap.corp:8443/nexus/service/local/repositories/deploy.external/content/com/dynatrace/managed/dynatrace-managed-sg-zip/${DT_AG_VERSION}/dynatrace-managed-sg-zip-${DT_AG_VERSION}.zip dynatrace.zip
 RUN unzip dynatrace.zip \
   && unzip agents.zip \
   && mv ${DT_AG_VERSION}/sg/unix/Dynatrace-ActiveGate-Linux-x86-*.sh ActiveGate-Installer.sh \
