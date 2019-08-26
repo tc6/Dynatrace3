@@ -1,0 +1,19 @@
+applications:
+- name: activegate
+  disk_quota: 3G
+  memory: 2G
+  instances: 1
+  routes:
+  - route: <external hostname for memory dump downloads>
+  docker:
+    image: cp-perf.docker.repositories.sap.ondemand.com/environment-activegate:latest
+    username: <docker username>
+  env:
+    DT_API_URL: https://<YourDynatraceServerURL>/e/<environmentID>/api
+    DT_PAAS_TOKEN: <PaaS token>
+    DT_DUMP_STORAGE: 5 # in GB (setting to 0 disables memory dumps)
+  health-check-type: http
+  health-check-http-endpoint: /rest/health
+  services:
+  # - fs-storage
+  # - dynatrace-monitoring

@@ -1,0 +1,16 @@
+{{- if (and .Values.dumps.enabled (not .Values.dumps.pvc.existing)) }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ template "activegate.fullname" . }}
+  labels:
+    app: {{ template "activegate.name" . }}
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.dumps.storage }}Gi
+  storageClassName: default
+  volumeMode: Filesystem
+{{- end }}

@@ -1,0 +1,8 @@
+version: '3.7'
+services:
+  active_gate:
+    image: activegate:latest
+    build:
+      context: .
+      args:
+        DT_AG_VERSION:

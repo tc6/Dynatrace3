@@ -1,0 +1,21 @@
+{{- if .Values.dumps.enabled }}
+kind: Ingress
+apiVersion: networking.k8s.io/v1beta1
+metadata:
+  name: {{ template "activegate.fullname" . }}
+  labels:
+    app: {{ template "activegate.name" . }}
+spec:
+  tls:
+  - hosts:
+    - {{ .Values.dumps.host.name }}
+    secretName: {{ template "activegate.fullname" . }}-tls
+  rules:
+  - host: {{ .Values.dumps.host.name }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ template "activegate.fullname" . }}
+          servicePort: 9999
+{{- end }}

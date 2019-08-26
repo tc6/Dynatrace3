@@ -1,0 +1,8 @@
+FROM cloudfoundry/cflinuxfs3
+
+ARG DT_API_TOKEN
+ARG DT_API_URL
+
+COPY scripts/agent.sh /opt/dynatrace/sap/agent.sh
+RUN chmod +x /opt/dynatrace/sap/agent.sh \
+ && /opt/dynatrace/sap/agent.sh prepare

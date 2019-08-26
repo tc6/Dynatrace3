@@ -1,0 +1,11 @@
+FROM paas_agent_base_image:latest
+
+RUN mkdir -p /usr/share/man/man1 \
+   && apt-get -qq update \
+   && apt-get -qq upgrade \
+   && apt-get -qq install openjdk-8-jdk
+
+COPY artifacts/spring-music-1.0.jar /work/spring-music.jar
+COPY scripts/startup.sh /work/startup.sh
+
+ENTRYPOINT /work/startup.sh

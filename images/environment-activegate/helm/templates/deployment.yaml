@@ -1,0 +1,68 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: {{ template "activegate.fullname" . }}
+  labels:
+    app: {{ template "activegate.name" . }}
+spec:
+{{- if ( and .Values.dumps.enabled .Values.dumps.host.external ) }}
+  replicas: 1
+{{- else }}
+  replicas: {{ .Values.replicas }}
+{{- end }}
+  selector:
+    matchLabels:
+      app: {{ template "activegate.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "activegate.name" . }}
+    spec:
+      containers:
+      - name: {{ template "activegate.name" . }}
+        image: {{ .Values.docker.repository }}/{{ .Values.docker.image }}
+        readinessProbe:
+          httpGet:
+            path: /rest/health
+            port: 9999
+          initialDelaySeconds: 40
+          timeoutSeconds: 1
+        livenessProbe:
+          httpGet:
+            path: /rest/health
+            port: 9999
+          initialDelaySeconds: 40
+          timeoutSeconds: 1
+        ports:
+        - containerPort: 9999
+        env:
+        - name: DT_API_URL
+          value: {{ .Values.env.DT_API_URL }}
+        - name: DT_PAAS_TOKEN
+          value: {{ .Values.env.DT_PAAS_TOKEN }}
+    {{- if .Values.dumps.enabled }}
+        - name: DT_AG_HOST
+          value: {{ .Values.dumps.host.name }}
+        - name: DT_AG_HOST_EXTERNAL
+          value: "{{ .Values.dumps.host.external }}"
+    {{- if (not .Values.dumps.pvc.enabled) }}
+        - name: DT_DUMP_STORAGE
+          value: "{{ .Values.dumps.storage }}"
+    {{- else }}
+        volumeMounts:
+        - name: vol
+          mountPath: /app/gateway/launcher/dump
+      volumes:
+      - name: vol
+        persistentVolumeClaim:
+        {{- if .Values.dumps.pvc.existing }}
+          claimName: {{ .Values.dumps.pvc.existing }}
+        {{- else }}
+          claimName: {{ template "activegate.fullname" . }}
+        {{- end }}
+    {{- end }}
+    {{- end }}
+    {{- if ( and .Values.docker.secret.username .Values.docker.secret.password ) }}
+      imagePullSecrets:
+      - name: {{ template "activegate.fullname" . }}-docker
+    {{- end }}

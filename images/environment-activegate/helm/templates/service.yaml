@@ -1,0 +1,15 @@
+{{- if .Values.dumps.enabled }}
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ template "activegate.fullname" . }}
+  labels:
+    app: {{ template "activegate.name" . }}
+spec:
+  ports:
+  - protocol: TCP
+    port: 9999
+    targetPort: 9999
+  selector:
+    app: {{ template "activegate.name" . }}
+{{- end }}

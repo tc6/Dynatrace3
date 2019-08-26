@@ -1,0 +1,38 @@
+version: '3.7'
+services:
+  base_image:
+    image: paas_agent_base_image:latest
+    volumes:
+    - type: bind
+      source: ${PWD}
+      target: /work
+      read_only: true
+    build:
+      context: .
+      dockerfile: docker/Dockerfile-base
+      args:
+        DT_API_TOKEN:
+        DT_API_URL:
+    entrypoint: ["echo", "base image including dynatrace paas image built successfully"]
+  java_buildtime:
+    image: java_buildtime:latest
+    build:
+      context: .
+      dockerfile: docker/Dockerfile-buildtime
+    environment:
+      DT_SKIP_ERRORS:
+      DT_API_TOKEN:
+      DT_API_URL:
+      DT_TENANT:
+      LOGLEVEL: DEBUG
+  java_runtime:
+    image: java_runtime:latest
+    build:
+      context: .
+      dockerfile: docker/Dockerfile-runtime
+    environment:
+      DT_SKIP_ERRORS:
+      DT_API_TOKEN:
+      DT_API_URL:
+      DT_TENANT:
+

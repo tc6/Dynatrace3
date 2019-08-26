@@ -1,0 +1,69 @@
+docker:
+  repository: cp-perf.docker.repositories.sap.ondemand.com
+  image: environment-activegate:latest
+  secret: # not required with public repositories
+    username: <docker username>
+    password: <docker password/token>
+    dockerhub: false # set to true for private images from Docker Hub
+replicas: 2
+env:
+  DT_API_URL: https://<YourDynatraceServerURL>/e/<environmentID>/api
+  DT_PAAS_TOKEN: <PaaS token>
+dumps:
+  enabled: false
+  storage: 5 # in GB
+  pvc:
+    enabled: true
+    existing: activegate-pvc # unset this to automatically create a new pvc
+  host:
+    name: <external hostname for memory dump downloads>
+    external: false # implies replicas=1 if set to true
+  tls:
+    cert: |
+      -----BEGIN CERTIFICATE-----
+      MIIC0DCCAbgCCQC6T4ykb3MBcDANBgkqhkiG9w0BAQsFADAqMRcwFQYDVQQDDA5h
+      Y3RpdmVnYXRlLmNvbTEPMA0GA1UECgwGU0FQIFNFMB4XDTE5MDUxNDEyNTk0MFoX
+      DTI5MDUxMTEyNTk0MFowKjEXMBUGA1UEAwwOYWN0aXZlZ2F0ZS5jb20xDzANBgNV
+      BAoMBlNBUCBTRTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALsDmRXP
+      OsjQ3o52LTJutHv6jV0gsTgYO2Z3xZS60R4nE3nFjguM7cKyGBkR1JHZtvGcB/S9
+      IJjg96qh8X1QxGgz5i/sRp4tUmpj/8hOlh+sqbt2xJYWP7oDDRGH4VJd6EpRjaz8
+      oWYWS+wl2+W2ncm3JhaCGpy6k8qcjIDgrH7Xk/28yw1cEzEoLL9sk3lpFG8WDtXq
+      z0YUV5M7thoFB1NftSgnT+TlHctdBQRfgL+Sgj1Tn+ftfxm/VINfMxUPB4WdPfLF
+      yCMDfhmlsgbrxM5yLx9ILEW4dRVN9IDrPbGMJ/1eCNjeYHnJaB0SEQINkh94gdNa
+      cB/paUa87JwfGXkCAwEAATANBgkqhkiG9w0BAQsFAAOCAQEAVe4t98SZLxI6FWQK
+      UsdxV77HBNEh+05jfCNRX6+mviiKYY78356ROX2zH88EyabYOG/Pni6rv8T8nyq6
+      48rEmPsAIz/mCh8IgOPHFN0EAUAFpDjDQUHFlmetrH96oIVyIwL9fcX7S6MntU7/
+      l/zhWdBRtksRYSd/kMRr9KVHoOepSVeakx37J9G6pDJ+j8V+o2nMTBDXgfAHBI+d
+      ziMe8WVlyYZs0WHjYKujmV6SQQAJ9Hw3Un6TKw2GwhG/cT10zwKOMyXhn+XELB/P
+      VbdoOwoCtNEzHwNGPhIY4rcjLuRq+j4IoHNqTC+Mw4IiQx+mBq6dUSg0oyqA84FX
+      T0A3xw==
+      -----END CERTIFICATE-----
+    key: |
+      -----BEGIN PRIVATE KEY-----
+      MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC7A5kVzzrI0N6O
+      di0ybrR7+o1dILE4GDtmd8WUutEeJxN5xY4LjO3CshgZEdSR2bbxnAf0vSCY4Peq
+      ofF9UMRoM+Yv7EaeLVJqY//ITpYfrKm7dsSWFj+6Aw0Rh+FSXehKUY2s/KFmFkvs
+      Jdvltp3JtyYWghqcupPKnIyA4Kx+15P9vMsNXBMxKCy/bJN5aRRvFg7V6s9GFFeT
+      O7YaBQdTX7UoJ0/k5R3LXQUEX4C/koI9U5/n7X8Zv1SDXzMVDweFnT3yxcgjA34Z
+      pbIG68TOci8fSCxFuHUVTfSA6z2xjCf9XgjY3mB5yWgdEhECDZIfeIHTWnAf6WlG
+      vOycHxl5AgMBAAECggEAcJFB3DbYk3fl/qpzmh+408eEv8Gl6rXrS0pcy6GHrjan
+      Km0XiyxRERhSGQT6hrAdxmC9CTuuG1eOvE6uJVgwYOicbcwy1ZNCQHfgxplHE9nC
+      cOyUeCL8SOL9QsgfgIy1/cYJGU8Xd3OET6iaLDM31us/Kd02V5CW1SZWDF0wd0gT
+      yopTjVVxAvJv1LNetTV/gBHER3OGvPuZ5eID+4j6IB1tqB8e2m61hcp8qGzbZ5Fa
+      /dIyds/QHn98QQdlYea06OH56SWs0r2WzqIueCgk/9oKspi31oSzhKlzUUOZJM6Q
+      AhFSoOPLTgMX9xbdX5fqGI2Vn2OCuOfQ7ENNl1gVgQKBgQDr/sRJKHTBHiQ6xe+7
+      n+HUgl1E19U/vd+BPiNbL1UIc29gZnx9j/c8Cjy9Lh/Nn5wNQTzanlrzyyoZJZlj
+      Vk7ihkxPNqmzJqUGpH+Hr/ZqgRfNGJVJtJ+PW+sajuy0GfZX9iCSxPBEzv4vDAQY
+      /bkgXZ8WWVsDoSZEGe3Rgb6mpQKBgQDK3emEE6yCj8zYBZ2HRYoFy0eH8md/H4cU
+      hMfsqYAKPMSvDhv0RmiPip0fr8TXLZX6x1wuXBeCVh0HB/uov1jWqHeXmUbFPU0D
+      Pb9xCOKT01sKkZriQp8+cMZSygaRovTxt8ydx5I9m9owH3FpaZWj9RfIh8zX7v06
+      VJn7unNDRQKBgEsNCItjjE3mMgtm62i13fHhS5wbL7xHvA60HjZfhSFc5Ky5qxmb
+      cTrs3ogjZQXVnqEwgBPejHo/wDGjHXbT+d5ca2Q9tBY/Ufgc1Fnoges5BsK48LEx
+      +hRzXP9jOK/GGeu7YHyMmQSo93kqzxrLhdZfL7rBzAoJc8vwmwsnwePpAoGAL7BG
+      6qNtVCvVrZp0U45HSeFlaVHUfo+8w1gLX1jhHob2fWhFrgC3J7cgBIjfLu4qaY9f
+      3g4MALmZjUOVJzAEBEIKCvsfJdKpPe/QBxRdnv56Ulu0GygqIxWDqYaQUMAL8J6S
+      XSzC9fSjL9jUYkFNygMdmihCQSiPIp0srX5BBjkCgYEAqQX3g2AABHy6koQiopD2
+      U9fzlcoxS7QLa5Cet6IhCYMK7j/Fu3c5d9sStcwQX2FJrK8VhNw9W96IFiGfpJnc
+      BOy+5pAfkp4hyJItUdSGZAw/6HM9qeEjcMw4CdjNXq766QSet0wpcfBQfBG1sI0Y
+      lL67W9zgiFvmEnp8mgZhapk=
+      -----END PRIVATE KEY----
